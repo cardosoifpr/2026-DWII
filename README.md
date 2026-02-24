@@ -25,7 +25,7 @@ Repositório para a Disciplina Desenvolvimento Web II - ProfeBerssa - IFPR - CRP
 
 ## 🔗 Como visualizar
 
-1. Clone o repositório: `git clone https://github.com/SEU-USUARIO/2026-DWII`
+1. Clone o repositório: `git clone https://github.com/cardosoifpr/2026-DWII`
 2. Acesse a pasta `00_apresentacao/`
 3. Abra o arquivo `index.html` no navegador
 

@@ -9,16 +9,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content ="width-device-width, initial-scale=1.0">
-    <title>Sobre - <?php echo $nome; ?></title>
+    <title> Projetos <?php echo $nome; ?></title>
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; background: #f3f4f6;">
 
     <?php include '../includes/cabecalho.php'; ?>
 
     <div style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
-        <h1 style="color: #3b579d;">Sobre mim</h1>
+        <h1 style="color: #3b579d;"> Projetos </h1>
         <p>Olá! Sou <strong><?php echo $nome; ?></strong>, estudante de Técnico de Informática no IFPR Ponta Grossa.</p>
-        <p>Estou aprendendo desenvolvimento web no IFPR. Atualmente bolsista do programa PIBCJR através da UEPG (Universade Estadual de Ponta Grossa). Tenho interresse na área de psicologia. Costumo ler e escutar música. </p>
+        <p>Por enquanto não há nenhum projeto.</p>
         <a href="index.php" style="color: #3b579d; font-weight: bold;"> Voltar ao início</a>
     </div>
 

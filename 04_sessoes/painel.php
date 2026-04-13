@@ -33,9 +33,24 @@ $pagina_atual = '';
     <div class="alerta-sucesso">
         <h3> Você está autenticado!</h3>
         <p><strong>Usuário:</strong>
-            <?php echo htmlspecialchars($_SESSION['logado_em'] ?? '-'); ?>
+            <?php echo htmlspecialchars($_SESSION['usuario'] ?? '-'); ?>
         </p>
+        <p><strong>Logado em:</strong>
+        <?php echo htmlspecialchars($_SESSION['logado_em'] ?? '-'); ?>
+        </p>    
         <p>Nas próximas aulas este painel terá funcionalidades reais (CRUD).</p>
+    </div><br>
+    <div class="card">
+    <h3>📊 Painel de controle</h3>
+    <p>Este conteúdo só é visível para usuários autenticados.</p>
+
+    <!-- Link para o módulo CRUD implementado na Aula 08.
+         O caminho sobe um nível (../) para sair de
+         04_sessoes/
+         e então entra em 05_crud/. -->
+    <a href="../05_crud/index.php" class="btn-primario">
+        📁 Gerenciar Projetos
+    </a>
     </div>
 
     <p style="margin-top: 24px; text-align: center;">
@@ -43,6 +58,7 @@ $pagina_atual = '';
             style="background: #9c2456; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">Sair</a>
     </p>
 </div>
+
 
 <?php require_once __DIR__ . '/../includes/rodape.php'; ?>
 </body>

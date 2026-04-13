@@ -49,6 +49,9 @@ $projetos = $stmt->fetchAll();
 
 // --- Mensagem de sucesso após cadastro ---
 $cadastroOk = isset($_GET['cadastro']) && $_GET['cadastro'] === 'ok';
+$editadoOk = isset($_GET['editado']) && $_GET['editado'] === 'ok';
+$excluidoOk = isset($_GET['excluido']) && $_GET['excluido'] === 'ok';
+$erroMsg = isset($_GET['erro']) ? $_GET['erro'] : '';
 
 $titulo_pagina = 'Meus Projetos — Portfólio';
 $caminho_raiz = '../';
@@ -98,6 +101,28 @@ $pagina_atual = '';
         </div>
     <?php endif; ?>
 
+    <?php if ($editadoOk): ?>
+        <div class="alerta-sucesso">
+            <p style="margin: 0;">✅ Projeto atualizado com sucesso!</p>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($excluidoOk): ?>
+        <div class="alerta-sucesso">
+            <p style="margin: 0;">🗑️ Projeto removido com sucesso!</p>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($erroMsg === 'nao_encontrado'): ?>
+        <div class="alerta-erro">
+            <p style="margin: 0;">⚠️ Projeto não encontrado. Ele pode já ter sido removido.</p>
+        </div>
+    <?php elseif ($erroMsg === 'id_invalido'): ?>
+        <div class="alerta-erro">
+            <p style="margin: 0;">⚠️ Requisição inválida.</p>
+        </div>
+    <?php endif; ?>
+
     <?php if (empty($projetos)): ?>
 
         <!-- Estado vazio: nenhum projeto ainda -->
@@ -121,7 +146,11 @@ $pagina_atual = '';
                     style="color: #8a174c; font-size: 14px; font-weight: bold; display: inline-block; margin-top: 10px;">
                     Ver detalhes
                 </a>
-            </div>
+                <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <a href="editar.php?id=<?php echo (int) $projeto['id']; ?>" class="btn-secundario">✏️ Editar</a>
+                    <a href="excluir.php?id=<?php echo (int) $projeto['id']; ?>" class="btn-perigo">🗑️ Excluir</a>
+                </div>
+                </div>
             <?php endforeach; ?>
 
         </div>

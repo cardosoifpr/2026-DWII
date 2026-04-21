@@ -23,7 +23,7 @@ $logado = isset($_SESSION['usuario']);
 <nav>
 
     <!-- Links para o portfólio — Aula 03 -->
-    <a href="<?php echo $caminho_raiz; ?>01_php-intro/index.php"
+    <a href="<?php echo $caminho_raiz; ?>index.php"
         <?php echo menu_class("inicio", $pagina_atual); ?>>
         🏠 Início
     </a>

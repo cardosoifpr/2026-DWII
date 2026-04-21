@@ -1,28 +1,32 @@
-<!-- 01_php-intro/sobre.mim.php -->
- <?php
- $nome = "Rafaela Cardoso";
- $caminho_raiz = "../";
- ?>
+<?php
+$pagina_atual = 'sobre';
+$nome = "Rafaela Cardoso";
+$caminho_raiz = "../";
+
+$formacoes = 'Estudante de Técnico em Informática no IFPR. '
+           . 'Me formei no Ensino Fundamental na Escola Estadual Medalha Milagrosa. '
+           . 'Atualmente bolsista do programa PIBCjr através da UEPG (Universade Estadual de Ponta Grossa). '
+           . 'Tenho interesse na área de psicologia. Costumo ler e escutar música.';
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content ="width-device-width, initial-scale=1.0">
-    <title>Sobre - <?php echo $nome; ?></title>
+    <?php include __DIR__ . '/../includes/cabecalho.php'; ?>
+    <title>Sobre - <?php echo htmlspecialchars($nome); ?></title>
 </head>
+
 <body style="font-family: Arial, sans-serif; margin: 0; background: #f3f4f6;">
 
-    <?php include '../includes/cabecalho.php'; ?>
-
-    <div style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
-        <h2>Sobre mim</h2>
-        <p>Olá! Sou <strong><?php echo $nome; ?></strong>, estudante de Técnico de Informática no IFPR Ponta Grossa.</p>
-        <p>Estou aprendendo desenvolvimento web no IFPR. Atualmente bolsista do programa PIBCJR através da UEPG (Universade Estadual de Ponta Grossa). Tenho interresse na área de psicologia. Costumo ler e escutar música. </p>
+    <div class="container">
+        <h2>
+            Olá, eu sou <?php echo htmlspecialchars($nome); ?>! 👋
+        </h2>
+        <p><?php echo htmlspecialchars($formacoes); ?></p>
         <a href="index.php"> Voltar ao início</a>
     </div>
 
-    <?php include '../includes/rodape.php'; ?>
+    <?php include __DIR__ . '/../includes/rodape.php'; ?>
 
 </body>
 </html>

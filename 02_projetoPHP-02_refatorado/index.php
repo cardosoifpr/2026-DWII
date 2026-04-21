@@ -20,7 +20,7 @@
 // $titulo_pagina → aparece na aba do navegador
 $pagina_atual  = 'inicio';
 $caminho_raiz  = './';
-$titulo_pagina = 'Portfólio — [SEU NOME AQUI]';
+$titulo_pagina = 'Portfólio — Rafaela Cardoso';
 
 // ── Dados de apresentação ────────────────────────────────────
 // Centralizamos o conteúdo em variáveis PHP.

@@ -38,7 +38,7 @@ A proposta envolve a refatoração de páginas HTML para uma estrutura mais modu
 │   ├── cabecalho.php
 │   ├── nav.php
 │   └── rodape.php
-├── style.css
+│   └── style.css
 └── README.md
 ```
 

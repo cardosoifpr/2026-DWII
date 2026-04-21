@@ -1,0 +1,338 @@
+/* ════════════════════════════════════════════════════════════
+ * ARQUIVO    : includes/style.css
+ * Disciplina : Desenvolvimento Web II (2026-DWII)
+ * Aula       : 04 — PHP para Web: Formulários, GET e POST
+ * Autor      : Rafaela Cardoso
+ * Escopo     : Estilos globais compartilhados por todas as aulas
+ * ════════════════════════════════════════════════════════════
+ *
+ * Um único arquivo CSS para todo o projeto.
+ * Para mudar o visual do menu, do rodapé ou dos formulários:
+ * edite AQUI — a mudança reflete em todas as páginas.
+ */
+
+/* ── Reset e base ──────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f6f3;
+  color: #010000;
+  line-height: 1.7;
+}
+
+/* ── Layout ─────────────────────────────────────── */
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* ── Títulos de seção ────────────────────────────── */
+h1.titulo-secao { color: #880d40; margin-bottom: 24px; }
+h2{
+  color:#880d40
+}
+
+/* ── Navegação ───────────────────────────────────── */
+nav {
+  background: #d891ac;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: bold;
+}
+/* Classe aplicada via PHP ao item da página atual */
+nav a.ativo {
+  color: #f0b341;
+  border-bottom: 2px solid #f0b341;
+}
+
+/* ── Cards de conteúdo ───────────────────────────── */
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border-left: 4px solid #68081d;
+}
+.card h3 { margin-top: 0; color: #3a020c; margin-bottom: 12px; }
+.card p  { margin-bottom: 0; color: #4d0d34; }
+
+/* ── Formulários ─────────────────────────────────── */
+.form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  margin-top: 16px;
+}
+label:first-of-type { margin-top: 0; }
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+}
+textarea { resize: vertical; }
+
+button[type="submit"] {
+  margin-top: 20px;
+  background: #97265b;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+button[type="submit"]:hover { background: #8a1555; }
+
+/* ── Alertas ─────────────────────────────────────── */
+/* Exibidos pelo PHP quando há erros de validação */
+.alerta-erro {
+  background: #fce8e8;
+  border-left: 4px solid #cf1c21;
+  border-radius: 0 8px 8px 0;
+  padding: 18px 22px;
+  margin-top: 20px;
+}
+.alerta-erro h3 { color: #cf1c21; margin-top: 0; }
+
+/* Exibido pelo PHP quando o envio foi bem-sucedido */
+.alerta-sucesso {
+  background: #e9f5ea;
+  border-left: 4px solid #3ba34a;
+  border-radius: 0 8px 8px 0;
+  padding: 18px 22px;
+  margin-top: 20px;
+}
+.alerta-sucesso h3 { color: #3ba34a; margin-top: 0; }
+
+/* ── Rodapé ──────────────────────────────────────── */
+footer {
+  background: #010000;
+  color: #6b7280;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+header{
+  text-align: center;
+}
+
+body { font-family: Arial, sans-serif; margin: 0; background: #f3f4f6; }
+        nav { background: #e08b9d; padding: 15px 30px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .hero { background: linear-gradient(135deg, #e08b9d, #c53460); color: white; text-align: center; padding: 60px 20px; }
+        .hero h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .hero p { font-size: 1.2em; opacity: 0.9; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        footer { background: #e08b9d; color: #000000; text-align: center; padding: 20px; margin-top: 60px; font-size: 14px; }
+
+/* ── Página de confirmação ──────────────────────────────── */
+.confirmacao { text-align: center; margin-top: 60px; }
+.confirmacao-icone { font-size: 60px; margin: 0; }
+.confirmacao-titulo { color: #2b0202; margin: 16px 0 8px; }
+.confirmacao-texto { font-size: 16px; color: #374151; margin-bottom: 24px; }
+
+a href{
+  color:#4d0d34
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#fff0f6;
+    color:#4a044e;
+    line-height:1.6;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    background:linear-gradient(135deg,#ec4899,#db2777);
+    color:white;
+    text-align:center;
+    padding:30px 20px;
+}
+
+header h1{
+    font-size:26px;
+}
+
+header p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container{
+    max-width:820px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+/* =====================================================
+   BOX INFORMATIVO
+===================================================== */
+
+.box-info{
+    background:#ffe4f0;
+    border-left:6px solid #ec4899;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+.box-info h3{
+    margin-bottom:10px;
+}
+
+/* =====================================================
+   TÍTULO DE SEÇÃO
+===================================================== */
+
+.secao{
+    font-size:18px;
+    margin-bottom:15px;
+    color:#9d174d;
+}
+
+/* =====================================================
+   CARD DAS AULAS
+===================================================== */
+
+.card-aula{
+    display:flex;
+    gap:16px;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:18px;
+    border-left:6px solid #f472b6;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:all 0.2s ease;
+}
+
+.card-aula:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* =====================================================
+   ÍCONE
+===================================================== */
+
+.icone{
+    font-size:28px;
+    width:40px;
+}
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
+.conteudo{
+    flex:1;
+}
+
+.conteudo h3{
+    font-size:18px;
+    margin:5px 0;
+}
+
+.conteudo p{
+    font-size:14px;
+    color:#6b2148;
+}
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+.badge{
+    background:#fbcfe8;
+    color:#831843;
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:6px;
+    display:inline-block;
+    margin-bottom:5px;
+}
+
+/* =====================================================
+   CONCEITOS
+===================================================== */
+
+.conceitos{
+    display:inline-block;
+    background:#ffe4f0;
+    font-size:12px;
+    padding:5px 8px;
+    border-radius:6px;
+    margin-top:6px;
+}
+
+/* =====================================================
+   BOTÃO
+===================================================== */
+
+.btn{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 16px;
+    background:#ec4899;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:14px;
+    transition:0.2s;
+}
+
+.btn:hover{
+    background:#db2777;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    text-align:center;
+    font-size:13px;
+    color:#9d174d;
+    padding:25px;
+    margin-top:40px;
+}

@@ -1,0 +1,26 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f9;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: rgb(243, 190, 199);
+}
+h1{
+     color: #000804;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+div{
+    margin-top: 3rem;
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-size: 0.95rem;
+    color: #555;
+    max-width: 500px;
+}

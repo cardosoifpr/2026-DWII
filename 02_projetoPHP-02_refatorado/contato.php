@@ -1,7 +1,9 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 $nome   = "Rafaela Cardoso";
 $pagina_atual = "contato";
-$caminho_raiz = "../";
+$caminho_raiz = "./";
 $titulo_pagina = "Contato";
 
 $nome_visitante = $_POST['nome_visitante'] ?? '';
@@ -36,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php include '../includes/cabecalho.php'; ?>
+<?php include 'includes/cabecalho.php'; ?>
     <div class="container">
         <h1 class="titulo-secao">Formulário de Contato</h1>
 
@@ -96,4 +98,4 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<?php include '../includes/rodape.php'; ?>
+<?php include 'includes/rodape.php'; ?>

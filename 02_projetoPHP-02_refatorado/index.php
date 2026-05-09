@@ -4,8 +4,8 @@
  * Disciplina : Desenvolvimento Web II (DWII)
  * Projeto    : Portfólio Pessoal — versão refatorada
  * Arquivo    : index.php  (homepage do portfólio)
- * Autor      : [SEU NOME AQUI]
- * Data       : [DATA DE HOJE]
+ * Autor      : RAFAELA CARDOSO
+ * Data       : 13.04.26
  * Descrição  : Homepage do portfólio pessoal.
  *              Converte a apresentação estática (HTML puro) em
  *              PHP dinâmico, integrando cabeçalho, navegação e
@@ -18,6 +18,9 @@
 // $caminho_raiz → prefixo para caminhos de CSS e links do menu
 //                 './' = estamos na raiz do projeto
 // $titulo_pagina → aparece na aba do navegador
+
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 $pagina_atual  = 'inicio';
 $caminho_raiz  = './';
 $titulo_pagina = 'Portfólio — Rafaela Cardoso';
@@ -59,7 +62,7 @@ $email     = '20241ctb0100040@estudantes.ifpr.edu.br';
       <!-- Foto de perfil -->
       <div class="foto-container">
         <img
-          src="<?php echo $caminho_raiz; ?>00_apresentacao/imgs/eu.jpg"
+          src="<?php echo $caminho_raiz; ?>includes/imgs/eu.jpg"
           alt="Foto de <?php echo htmlspecialchars($nome); ?>"
           class="foto-perfil">
       </div>

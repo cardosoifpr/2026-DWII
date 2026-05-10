@@ -1,26 +1,56 @@
 <?php
+/**
+ * =========================================================
+ * Disciplina : Desenvolvimento Web II (DWII)
+ * Projeto    : Portfólio Pessoal — versão refatorada
+ * Arquivo    : contato.php  (migrado de 02_formularios/contato.php)
+ * Autor      : Rafaela Cardoso
+ * Data       : 27/04/2026
+ * Padrão     : PRG — Post/Redirect/Get
+ * =========================================================
+ *
+ * ⚠️ session_start() é necessário AQUI porque $_SESSION é usado
+ *   no bloco POST abaixo, antes de incluir cabecalho.php.
+ *   Nenhum caractere pode aparecer antes deste bloco.
+ */
+
+// session_start() ANTES de qualquer saída HTML.
+// Necessário aqui — cabecalho.php é incluído dentro do <head>,
+// após o início do output HTML, tarde demais para iniciar sessão.
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-$nome   = "Rafaela Cardoso";
-$pagina_atual = "contato";
-$caminho_raiz = "./";
-$titulo_pagina = "Contato";
+// ✅ Ordem padrão: $pagina_atual → $titulo_pagina → $caminho_raiz
+// Sem $nome — fallback do cabecalho.php.
+$pagina_atual = 'contato';
+$titulo_pagina = 'Contato | Portfólio DWII';
+$caminho_raiz = './';
 
-$nome_visitante = $_POST['nome_visitante'] ?? '';
-$assunto = $_POST['assunto'] ?? '';
-$mensagem = $_POST['mensagem'] ?? '';
-$erros = [];
+// Valores iniciais — sobrescritos se o formulário for reenviado com erros
+$nome_visitante = '';
+$email          = '';
+$mensagem       = '';
+$erros          = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome_visitante = trim($_POST['nome_visitante'] ?? '');
-    $mensagem = trim($_POST['mensagem'] ?? '');
 
-    if (empty($nome_visitante))  {
+    // trim() remove espaços; ?? '' evita erro se o campo não existir
+    $nome_visitante = trim($_POST['nome_visitante'] ?? '');
+    $email          = trim($_POST['email']          ?? '');
+    $mensagem       = trim($_POST['mensagem']       ?? '');
+
+    if (empty($nome_visitante)) {
         $erros[] = 'O campo Nome é obrigatório.';
+    } elseif (strlen($nome_visitante) < 3) {
+        $erros[] = 'O nome deve ter pelo menos 3 caracteres.';
     }
 
-    if (empty($assunto)) {
-        $erros[] = 'Selecione um assunto.';
+    if (empty($email)) {
+        $erros[] = 'O campo E-mail é obrigatório.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        // filter_var com FILTER_VALIDATE_EMAIL verifica o formato.
+        // O ! inverte: entra no if quando o e-mail é INVÁLIDO.
+        $erros[] = 'Informe um e-mail válido (ex: nome@email.com).';
     }
 
     if (empty($mensagem)) {
@@ -28,74 +58,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($mensagem) < 10) {
         $erros[] = 'A mensagem deve ter pelo menos 10 caracteres.';
     } elseif (strlen($mensagem) > 500) {
-        $erros[] = 'A mensagem não pode ter mais que 500 caracteres.';
+        $erros[] = 'A mensagem não pode ultrapassar 500 caracteres.';
     }
 
     if (empty($erros)) {
-        header('Location: obrigado.php?nome=' . urlencode($nome_visitante) . '&assunto=' . urlencode($assunto) . '&chars=' . strlen($mensagem));
-        exit;
+
+        // ✅ Nome salvo em $_SESSION em vez de passado pela URL.
+        // ANTES: header('Location: obrigado.php?nome=' . urlencode(...))
+        //   → nome visível na URL, qualquer um pode acessar obrigado.php?nome=X
+        // DEPOIS: dado guardado no servidor, não exposto ao visitante.
+        $_SESSION['contato_nome'] = $nome_visitante;
+
+        header('Location: obrigado.php');
+        exit; // SEMPRE após header Location
     }
+
 }
 ?>
 
-<?php include 'includes/cabecalho.php'; ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- ✅ '/../includes/' → '/includes/' -->
+    <?php include __DIR__ . '/includes/cabecalho.php'; ?>
+</head>
+
+<body>
     <div class="container">
-        <h1 class="titulo-secao">Formulário de Contato</h1>
+        <h1 class="titulo-secao">📬 Entre em Contato</h1>
 
-        <form class="form-container" action="contato.php" method="post">
-            <label>Seu nome:</label>
-            <input type="text" name="nome_visitante">
-
-            <label>Assunto:</label>
-            <select name="assunto">
-            <option value="">Selecione</option>
-
-            <option value="Dúvida"
-            <?php if($assunto=="Dúvida") echo "selected"; ?>>Dúvida</option>
-
-            <option value="Proposta de trabalho"
-            <?php if($assunto=="Proposta de trabalho") echo "selected"; ?>>Proposta de trabalho</option>
-
-            <option value="Colaboração"
-            <?php if($assunto=="Colaboração") echo "selected"; ?>>Colaboração</option>
-
-            <option value="Outro"
-            <?php if($assunto=="Outro") echo "selected"; ?>>Outro</option>
-
-        </select>
-
-
-            <label>Sua mensagem:</label>
-            <textarea name="mensagem" id="mensagem" rows="4" maxlength="500"><?php echo htmlspecialchars($mensagem); ?></textarea>
-            
-            <p id="contador">
-                <?php echo strlen($mensagem); ?> de 500 caracteres usados
-            </p>
-            <button type="submit">Enviar</button>
-        </form>
-        <?php if (!empty($erros)) : ?>
+        <?php if (!empty($erros)): ?>
+            <!-- ✅ Classe .alerta-erro substitui bloco style="" inline -->
             <div class="alerta-erro">
-                <h3>⚠️ Corrija os erros:</h3>
-                <?php foreach ($erros as $erro) : ?>
-                    <p style="margin: 4px 0;">✖ <?php echo htmlspecialchars($erro); ?></p>
-                <?php endforeach; ?>
-        <?php endif; ?>   
-    </div>
+                <h3>⚠️ Corrija os erros abaixo:</h3>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+                <ul style="margin: 6px 0 0; padding-left: 20px;">
+                    <?php foreach ($erros as $erro): ?>
+                        <li><?php echo htmlspecialchars($erro); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-    const textarea = document.getElementById("mensagem");
-    const contador = document.getElementById("contador");
+        <!--
+            ✅ CSS inline substituído pelas classes do style.css global:
+            .form-container → fundo branco, padding, border-radius
+            .campo          → margin-bottom entre campos
+            .label-campo    → label em negrito, display: block
+            .input-texto    → estilo unificado para input e textarea
+            .btn-primario   → botão azul com hover
+        -->
 
-    function atualizarContador() {
-        const quantidade = textarea.value.length;
-        contador.textContent = quantidade + " de 500 caracteres usados";
-    }
+        <div class="form-container">
+            <form class="formulario" method="post" action="contato.php">
 
-    textarea.addEventListener("input", atualizarContador);
+                <div class="campo">
+                    <label class="label-campo" for="nome_visitante">Nome *</label>
 
-});
-</script>
+                    <input class="input-texto" type="text" id="nome_visitante"
+                        name="nome_visitante" placeholder="Seu nome completo"
+                        value="<?php
+                        echo htmlspecialchars($nome_visitante);
+                        ?>">
+                </div>
+                
+                <div class="campo">
+                    <label class="label-campo" for="email">E-mail *</label>
+                    <input class="input-texto" type="email" id="email" name="email"
+                        placeholder="seu@email.com"
+                        value="<?php echo htmlspecialchars($email); ?>">
+                </div>
 
-<?php include 'includes/rodape.php'; ?>
+                <div class="campo">
+                    <label class="label-campo" for="mensagem">
+                        Mensagem *
+                        <span style="color: #6b7280; font-weight: normal; font-size: 13px;">
+                            (mín. 10, máx. 500 caracteres)
+                        </span>
+                    </label>
+
+                    <!--
+                        Para <textarea> o valor vai ENTRE as tags, não em value="".
+                        Sem quebra de linha após a abertura — evita espaço extra
+                        no início da mensagem recuperada após erro de validação.
+                    -->
+
+                    <textarea class="input-texto" id="mensagem" name="mensagem"
+                        rows="5" placeholder="Escreva sua mensagem..."
+                        maxlength="500"><?php echo htmlspecialchars($mensagem); ?></textarea>
+                </div>
+
+                <button type="submit" class="btn-primario" style="width: 100%;">
+                    Enviar Mensagem 📩
+                </button>
+
+</form>
+</div>
+</div>
+
+<?php include __DIR__ . '/includes/rodape.php'; ?>
+
+</body>
+</html>

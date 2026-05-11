@@ -2,7 +2,7 @@
 function conectar(): PDO 
 {
     $dsn = 'mysql:host=127.0.0.1;dbname=portfolio;charset=utf8mb4';
-    $usuario = 'admin';
+    $usuario = 'root';
     $senha = 'dwii2026';
 try {
     return new PDO($dsn, $usuario, $senha, [

@@ -124,7 +124,7 @@ CREATE TABLE logs (
 -- com: php -r "echo password_hash('admin2026', PASSWORD_BCRYPT);"
 -- O hash autêntico começa com $2y$ e tem 60 caracteres.
 INSERT INTO usuarios (login, senha, email) VALUES
-  ('admin', '$2y$10$SYkgJ/OrmpyvCRs2xbnpJ.RUL8IPOgW2MNQhtrtFvHS6HtYLoGZXO', 'admin@portfolio.local');
+  ('admin', '$2y$10$pjLk5Y.dK35m/mFIwKwKderlzGE8qcIMe9c7hawsbCZtvQOReHDtu', 'admin@portfolio.local');
 
 -- Tecnologias: status assume 'ativo' por DEFAULT — não precisa listar.
 INSERT INTO tecnologias (nome, categoria, descricao, ano_criacao) VALUES

@@ -1,26 +1,27 @@
-<!--
-    Disciplina: Desenvolvimento Web II (DWII)
-    Aula: 05 - PHP + MariaDB : persistência de dados via PDO
-    Autor: Rafaela Cardoso
-    Data: 16/03/2026
--->
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-$titulo_pagina = "Catálogo de Tecnologias";
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 $pagina_atual = "catalogo";
+$titulo_pagina = "Catálogo de Tecnologias";
+$caminho_raiz = './';
+
 
 // Incluir a conexão PDO - disponibiliza a variável $pdo
-require_once 'includes/conexao.php';
+require_once __DIR__ . '/includes/conexao.php';
+$pdo = conectar();
 
 // Buscar todos os registros - query() para SELECTs sem par}ametros
-$stmt = $pdo->query('SELECT * FROM tecnologias ORDER BY nome ASC');
+$stmt = $pdo->query(
+    "SELECT * FROM tecnologias
+       WHERE status = 'ativo'
+       ORDER BY criado_em DESC"
+);
 $tecnologias = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <?php include 'includes/cab_pdo.php'; ?>
+    <?php include __DIR__ . '/includes/cabecalho.php'; ?>
 </head>
 <body>
     <div class="container">
@@ -29,6 +30,14 @@ $tecnologias = $stmt->fetchAll();
             <?php echo count($tecnologias); ?> tecnologia (s) cadastrada (s)
         </p>
         
+        <?php if (empty($tecnologias)): ?>
+            <div class="card" style="text-align: center; padding: 40px 20px; color: #2c9ddf00;">
+                <p style="font-size: 40px; margin: 0 0 12px;"></p>
+                <p style="font-size: 16px; margin: 0;">Nenhuma tecnologia ativa.</p>
+            </div>
+
+        <?php else: ?>
+
         <?php foreach ($tecnologias as $tec): ?>
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -38,14 +47,15 @@ $tecnologias = $stmt->fetchAll();
                     </span>
                 </div>
                 <p><?php echo htmlspecialchars($tec['descricao']); ?></p>
-                <a href="/03_pdo/detalhe.php?id=<?php echo $tec['id']; ?>"
+                <a href="detalhe.php?id=<?php echo $tec['id']; ?>"
                     style="color: #520316; font-size: 14px; font-weight: bold; display: inline-block; margin-top: 10px;">
                     Ver detalhes
                 </a>
             </div>
         <?php endforeach; ?>
+        <?php endif; ?>
     </div>
         
-    <?php include 'includes/rod_pdo.php'; ?>
+    <?php include __DIR__ . '/includes/rodape.php'; ?>
 </body>
 </html>

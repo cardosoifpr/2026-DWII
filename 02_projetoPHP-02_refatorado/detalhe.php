@@ -1,40 +1,58 @@
 <?php
+/**
+ * =========================================================
+ * Disciplina : Desenvolvimento Web II (DWII)
+ * Projeto    : Portfólio Pessoal — versão refatorada
+ * Arquivo    : contato.php  (migrado de 03_pdo/detalhe.php)
+ * Autor      : Rafaela Cardoso
+ * Data       : 27/04/2026
+ * Descrição     : Detalhe de uma tecnologia. Acessada via get ?id=N .
+ * =========================================================
+ *
+ * ⚠️ session_start() é necessário AQUI porque $_SESSION é usado
+ *   no bloco POST abaixo, antes de incluir cabecalho.php.
+ *   Nenhum caractere pode aparecer antes deste bloco.
+ */
+
+if (session_status() === PHP_SESSION_NONE) session_start();
 // Caminho relativo da subpasta 03_pdo/ até a raiz (usado pelo CSS global)
-$caminho_raiz = '../';
+$pagina_atual = 'catalago';
+$titulo_pagina = 'Detalhe | Portfolio DWII';
+$caminho_raiz = './';
 
 // Incluir a conexão PDO
-require_once 'includes/conexao.php';
+require_once __DIR__ . '/includes/conexao.php';
 
 // Validar o ID recebido via GET — retorna false se não for inteiro válido
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-if (!$id) {
+if (!$id || $id <= 0) {
     // ID inválido ou ausente — redirecionar para a lista
     header('Location: index.php');
     exit;
 }
 
+$pdo = conectar();
 // prepare() + execute() — NUNCA concatenar variáveis no SQL (previne SQL Injection)
-$stmt = $pdo->prepare('SELECT * FROM tecnologias WHERE id = :id');
-$stmt->execute(['id' => $id]);
+$stmt = $pdo->prepare("SELECT * FROM tecnologias WHERE id = :id AND status = 'ativo' LIMIT 1");
+$stmt->execute([':id' => $id]);
 $tec = $stmt->fetch(); // fetch() retorna UMA linha (ou false se não encontrou)
 
 if (!$tec) {
     // Registro não encontrado — redirecionar para a lista
-    header('Location: index.php');
+    header('Location: catalago.php');
     exit;
 }
 
 // Variáveis para o cabeçalho global
-$titulo_pagina = htmlspecialchars($tec['nome']) . " — Catálogo";
-$pagina_atual = "catalogo";
+$titulo_pagina = htmlspecialchars($tec['nome']) . " | Portfolio DWII";
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <!-- Cabeçalho global via proxy local -->
-    <?php include 'includes/cab_pdo.php'; ?>
+    <?php include __DIR__ . '/includes/cabecalho.php'; ?>
 </head>
 <body>
 
@@ -91,7 +109,7 @@ $pagina_atual = "catalogo";
     </div>
 
     <!-- Rodapé global via proxy local -->
-    <?php include 'includes/rod_pdo.php'; ?>
+    <?php include __DIR__ . '/includes/rodape.php'; ?>
 
 </body>
 </html>

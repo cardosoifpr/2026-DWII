@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 INSERT INTO logs
                 (tabela_afetada, registro_id, acao, usuario_login, detalhes)
                 VALUES
-                ('usuarios', 0, 'LOGIN', :login, 'Login realizado com sucesso')
+                ('usuarios', :id, 'LOGIN', :login, 'Login realizado com sucesso')
             ");
 
             $log->execute([
@@ -65,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: painel.php');
             exit;
         }
-
         $log = $pdo->prepare("
             INSERT INTO logs
             (tabela_afetada, registro_id, acao, usuario_login, detalhes)

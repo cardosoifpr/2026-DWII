@@ -24,21 +24,30 @@ A proposta envolve a refatoração de páginas HTML para uma estrutura mais modu
 ## 📁 Estrutura de arquivos
 
 ```bash
-02_projetoPHP-02_refatorado/
-├── 00_apresentacao/
-├── 01_php-intro/
-│   ├── index.php
-│   ├── sobre.php
-│   └── projetos.php
-├── 02_formularios/
-├── 03_pdo/
-├── 04_sessoes/
-├── 05_crud/
+02_PROJETOPHP-02_refatorado/
 ├── includes/
+│   ├── imgs/
+│   ├── auth.php
 │   ├── cabecalho.php
+│   ├── conexao.php
 │   ├── nav.php
-│   └── rodape.php
+│   ├── rodape.php
 │   └── style.css
+│
+├── sql/
+│   └── setup.sql
+│
+├── admin.php
+├── catalogo.php
+├── contato.php
+├── detalhe.php
+├── index.php
+├── login.php
+├── logout.php
+├── obrigado.php
+├── painel.php
+├── projetos.php
+├── sobre.php
 └── README.md
 ```
 

@@ -128,6 +128,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: admin.php?ok=arquivado");
         exit;
     }
+
+    if ($acao === 'desarquivar') {
+    $id = (int) ($_POST['id'] ?? 0);
+
+    if ($id > 0) {
+        $stmt = $pdo->prepare(
+            "UPDATE projetos SET status = 'rascunho' WHERE id = :id"
+        );
+
+        $stmt->execute([':id' => $id]);
+        registrar_log($pdo, 'STATUS', $id, 'Status alterado para rascunho (desarquivado)');
+    }
+
+    header("Location: admin.php?ok=desarquivado");
+    exit;
+}
 }
 
 // -- Edicao via GET (?editar=ID): carrega o registro atual --------
@@ -181,7 +197,7 @@ $caminho_raiz  = './';
 
         <?php if (isset($_GET['ok'])): ?>
             <div class="alerta-sucesso">
-                <p style="margin: 0;">Operacao realizada com sucesso.</p>
+                <p style="margin: 0;">Operação realizada com sucesso.</p>
             </div>
         <?php endif; ?>
 
@@ -310,6 +326,61 @@ $caminho_raiz  = './';
             </select>
         </form>
 
+        <?php
+        // Contadores
+
+        $total_rascunho = $pdo->query(
+            "SELECT COUNT(*) FROM projetos WHERE status = 'rascunho'"
+        )->fetchColumn();
+
+        $total_publicado = $pdo->query(
+            "SELECT COUNT(*) FROM projetos WHERE status = 'publicado'"
+        )->fetchColumn();
+
+        $total_arquivado = $pdo->query(
+            "SELECT COUNT(*) FROM projetos WHERE status = 'arquivado'"
+        )->fetchColumn();
+        ?>
+
+        <div style="
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        ">
+
+            <div style="
+                background: #fef3c7;
+                color: #92400e;
+                padding: 12px 18px;
+                border-radius: 10px;
+                font-weight: bold;
+            ">
+                Rascunhos: <?php echo $total_rascunho; ?>
+            </div>
+
+            <div style="
+                background: #dcfce7;
+                color: #166534;
+                padding: 12px 18px;
+                border-radius: 10px;
+                font-weight: bold;
+            ">
+                Publicados: <?php echo $total_publicado; ?>
+            </div>
+
+            <div style="
+                background: #e5e7eb;
+                color: #374151;
+                padding: 12px 18px;
+                border-radius: 10px;
+                font-weight: bold;
+            ">
+                Arquivados: <?php echo $total_arquivado; ?>
+            </div>
+
+        </div>
+
         <!-- Listagem -->
 
         <?php if (empty($projetos)): ?>
@@ -328,7 +399,7 @@ $caminho_raiz  = './';
                         <th style="text-align: left;">Nome</th>
                         <th>Ano</th>
                         <th>Status</th>
-                        <th>Acoes</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
@@ -346,39 +417,87 @@ $caminho_raiz  = './';
                                 <?php echo (int) $p['ano']; ?>
                             </td>
 
-                            <td style="text-align: center;">
-                                <?php echo ucfirst($p['status']); ?>
+                           <td style="text-align: center;">
+
+                                <?php
+                                $cores = [
+                                    'rascunho'  => ['bg' => '#fef3c7', 'cor' => '#92400e', 'dot' => '#f59e0b'],
+                                    'publicado' => ['bg' => '#dcfce7', 'cor' => '#166534', 'dot' => '#22c55e'],
+                                    'arquivado' => ['bg' => '#e5e7eb', 'cor' => '#374151', 'dot' => '#6b7280'],
+                                ];
+
+                                $status = $p['status'];
+                                ?>
+
+                                <span style="
+                                    display: inline-flex;
+                                    align-items: center;
+                                    gap: 8px;
+                                    padding: 6px 12px;
+                                    border-radius: 999px;
+                                    font-size: 13px;
+                                    font-weight: 600;
+                                    background: <?php echo $cores[$status]['bg']; ?>;
+                                    color: <?php echo $cores[$status]['cor']; ?>;
+                                ">
+
+                                    <span style="
+                                        width: 8px;
+                                        height: 8px;
+                                        border-radius: 50%;
+                                        background: <?php echo $cores[$status]['dot']; ?>;
+                                        display: inline-block;
+                                    "></span>
+
+                                    <?php echo ucfirst($status); ?>
+
+                                </span>
+
                             </td>
-
                             <td>
-
                                 <a href="admin.php?editar=<?php echo (int) $p['id']; ?>"
-                                   class="btn-secundario">
-
+                                class="btn-secundario">
                                     Editar
-
                                 </a>
 
+                                <!-- ARQUIVAR -->
                                 <?php if ($p['status'] !== 'arquivado'): ?>
 
                                     <form action="admin.php"
-                                          method="post"
-                                          style="display: inline;"
-                                          onsubmit="return confirm('Arquivar este projeto?');">
+                                        method="post"
+                                        style="display: inline;"
+                                        onsubmit="return confirm('Arquivar este projeto?');">
+
+                                        <input type="hidden" name="acao" value="arquivar">
 
                                         <input type="hidden"
-                                               name="acao"
-                                               value="arquivar">
+                                            name="id"
+                                            value="<?php echo (int) $p['id']; ?>">
 
-                                        <input type="hidden"
-                                               name="id"
-                                               value="<?php echo (int) $p['id']; ?>">
-
-                                        <button type="submit"
-                                                class="btn-perigo">
-
+                                        <button type="submit" class="btn-perigo">
                                             Arquivar
+                                        </button>
 
+                                    </form>
+
+                                <?php endif; ?>
+
+                                <!-- DESARQUIVAR (só se estiver arquivado) -->
+                                <?php if ($p['status'] === 'arquivado'): ?>
+
+                                    <form action="admin.php"
+                                        method="post"
+                                        style="display: inline;"
+                                        onsubmit="return confirm('Desarquivar este projeto?');">
+
+                                        <input type="hidden" name="acao" value="desarquivar">
+
+                                        <input type="hidden"
+                                            name="id"
+                                            value="<?php echo (int) $p['id']; ?>">
+
+                                        <button type="submit" class="btn-secundario">
+                                            Desarquivar
                                         </button>
 
                                     </form>

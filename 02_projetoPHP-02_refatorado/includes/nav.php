@@ -49,20 +49,13 @@ $logado = isset($_SESSION['usuario']);
     </a>
 
     <?php if ($logado): ?>
-        <a href="<?php echo $caminho_raiz; ?>05_crud/index.php"
-            <?php echo menu_class("crud", $pagina_atual); ?>>
-            🗂️ CRUD
-        </a>
-        <a href="<?php echo $caminho_raiz; ?>04_sessoes/logout.php"
-            <?php echo menu_class("sair", $pagina_atual); ?>>
-            🚪Sair
-        </a>
+    <a href="<?php echo $caminho_raiz; ?>painel.php" ...>📊 Painel</a>
+    <a href="<?php echo $caminho_raiz; ?>logout.php">🚪 Sair</a>
     <?php else: ?>
-        <a href="<?php echo $caminho_raiz; ?>04_sessoes/login.php"
-        <?php echo menu_class("login", $pagina_atual); ?>>
-        🔒 Login
-        </a>
+    <a href="<?php echo $caminho_raiz; ?>login.php" ...>🔐 Login</a>
     <?php endif; ?>
+
+    
 
 
 </nav>
